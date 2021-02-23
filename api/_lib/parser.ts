@@ -52,8 +52,8 @@ function getArray(stringOrArray: string[] | string | undefined): string[] {
 
 function getDefaultImages(images: string[], theme: Theme): string[] {
     const defaultImage = theme === 'light'
-        ? '/LpBubble.svg'
-        : '/LpBubble.svg';
+        ? 'https://firebasestorage.googleapis.com/v0/b/our-bookmarks-18a31.appspot.com/o/ogimage%2FLogo.svg?alt=media&token=1391fd29-7eed-4b4e-91df-9242889671f4'
+        : 'https://firebasestorage.googleapis.com/v0/b/our-bookmarks-18a31.appspot.com/o/ogimage%2FLogo.svg?alt=media&token=1391fd29-7eed-4b4e-91df-9242889671f4';
 
     if (!images || !images[0]) {
         return [defaultImage];
