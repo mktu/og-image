@@ -105,7 +105,7 @@ function getCss(theme: string, fontSize: string) {
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+    const { text, theme, md, fontSize, images, widths, heights, author } = parsedReq;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -127,6 +127,11 @@ export function getHtml(parsedReq: ParsedRequest) {
                 md ? marked(text) : sanitizeHtml(text)
             )}
             </div>
+            ${author ? `
+                <div class='heading' >
+                ${emojify(sanitizeHtml(author))}
+                </div>
+            ` : ''}
         </div>
     </body>
 </html>`;
