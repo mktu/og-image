@@ -1,6 +1,6 @@
 import { IncomingMessage } from 'http';
 import { parse } from 'url';
-import { ParsedRequest, Theme } from './types';
+import { ParsedRequest } from './types';
 
 export function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
@@ -37,7 +37,7 @@ export function parseRequest(req: IncomingMessage) {
         heights: getArray(heights),
         author: author as string
     };
-    parsedRequest.images = getDefaultImages(parsedRequest.images, parsedRequest.theme);
+    parsedRequest.images = getDefaultImages(parsedRequest.images);
     return parsedRequest;
 }
 
@@ -51,16 +51,9 @@ function getArray(stringOrArray: string[] | string | undefined): string[] {
     }
 }
 
-function getDefaultImages(images: string[], theme: Theme): string[] {
-    const defaultImage = theme === 'light'
-        ? 'https://firebasestorage.googleapis.com/v0/b/our-bookmarks-18a31.appspot.com/o/ogimage%2FLogo.svg?alt=media&token=1391fd29-7eed-4b4e-91df-9242889671f4'
-        : 'https://firebasestorage.googleapis.com/v0/b/our-bookmarks-18a31.appspot.com/o/ogimage%2FLogo.svg?alt=media&token=1391fd29-7eed-4b4e-91df-9242889671f4';
-
+function getDefaultImages(images: string[]): string[] {
     if (!images || !images[0]) {
-        return [defaultImage];
-    }
-    if (!images[0].startsWith('https://assets.vercel.com/') && !images[0].startsWith('https://assets.zeit.co/')) {
-        images[0] = defaultImage;
+        return [];
     }
     return images;
 }

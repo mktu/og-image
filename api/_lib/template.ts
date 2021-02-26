@@ -67,6 +67,7 @@ function getCss(theme: string, fontSize: string) {
     }
 
     .logo-wrapper {
+        font-family: sans-serif;
         display: flex;
         align-items: center;
         align-content: center;
@@ -118,11 +119,10 @@ export function getHtml(parsedReq: ParsedRequest) {
         <div>
             <div class="spacer">
             <div class="logo-wrapper">
-                ${images.map((img, i) =>
+                ${images.length > 0 ?images.map((img, i) =>
                     getPlusSign(i) + getImage(img, widths[i], heights[i])
-                ).join('')}
+                ).join('') : getDefaultLogo()}
             </div>
-            <div class="spacer">
             <div class="heading">${emojify(
                 md ? marked(text) : sanitizeHtml(text)
             )}
@@ -145,6 +145,20 @@ function getImage(src: string, width ='auto', height = '225') {
         width="${sanitizeHtml(width)}"
         height="${sanitizeHtml(height)}"
     />`
+}
+
+function getDefaultLogo(){
+    const color = '#4D5D6A'
+    const fontSize = '172px'
+    return `
+    <p style="font-size: ${fontSize}; font-weight: 700; color: ${color};margin-right:1rem;">Bookmark</p>
+    <p style="border-radius:1rem; padding: 0 2rem; background-color: ${color}; font-size: ${fontSize}; font-weight: 700; color: white;">Board</p>
+    <div>
+        <svg width="128" height="128" viewBox="0 0 30 25" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0L30 0L20.8594 12.5L30 25L0 25L0 0Z" fill="${color}"/>
+        </svg>
+    </div>
+    `
 }
 
 function getPlusSign(i: number) {
