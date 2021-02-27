@@ -129,7 +129,7 @@ export function getHtml(parsedReq: ParsedRequest) {
             </div>
             ${author ? `
                 <div class='heading' >
-                ${emojify(sanitizeHtml(author))}
+                @${emojify(sanitizeHtml(author))}
                 </div>
             ` : ''}
         </div>
