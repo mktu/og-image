@@ -2,7 +2,7 @@
 import { readFileSync } from 'fs';
 import marked from 'marked';
 import { sanitizeHtml } from './sanitizer';
-import { ParsedRequest } from './types';
+import { ParsedRequest, Theme } from './types';
 const twemoji = require('twemoji');
 const twOptions = { folder: 'svg', ext: '.svg' };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
@@ -17,7 +17,7 @@ function getCss(theme: string, fontSize: string) {
     let radial = 'lightgray';
 
     if (theme === 'dark') {
-        background = 'black';
+        background = '#263238';
         foreground = 'white';
         radial = 'dimgray';
     }
@@ -121,7 +121,7 @@ export function getHtml(parsedReq: ParsedRequest) {
             <div class="logo-wrapper">
                 ${images.length > 0 ?images.map((img, i) =>
                     getPlusSign(i) + getImage(img, widths[i], heights[i])
-                ).join('') : getDefaultLogo()}
+                ).join('') : getDefaultLogo(theme)}
             </div>
             <div class="heading">${emojify(
                 md ? marked(text) : sanitizeHtml(text)
@@ -147,15 +147,16 @@ function getImage(src: string, width ='auto', height = '225') {
     />`
 }
 
-function getDefaultLogo(){
-    const color = '#4D5D6A'
+function getDefaultLogo(theme:Theme = 'light'){
+    const bgColor = theme === 'light' ? '#4D5D6A' : 'white'
+    const textColor = theme === 'light' ? 'white' : '#4D5D6A'
     const fontSize = '172px'
     return `
-    <p style="font-size: ${fontSize}; font-weight: 700; color: ${color};margin-right:1rem;">Bookmark</p>
-    <p style="border-radius:1rem; padding: 0 2rem; background-color: ${color}; font-size: ${fontSize}; font-weight: 700; color: white;">Board</p>
+    <p style="font-size: ${fontSize}; font-weight: 700; color: ${bgColor};margin-right:1rem;">Bookmark</p>
+    <p style="border-radius:1rem; padding: 0 2rem; background-color: ${bgColor}; font-size: ${fontSize}; font-weight: 700; color: ${textColor};">Board</p>
     <div>
         <svg width="128" height="128" viewBox="0 0 30 25" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 0L30 0L20.8594 12.5L30 25L0 25L0 0Z" fill="${color}"/>
+            <path d="M0 0L30 0L20.8594 12.5L30 25L0 25L0 0Z" fill="${bgColor}"/>
         </svg>
     </div>
     `
